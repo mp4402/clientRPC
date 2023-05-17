@@ -56,10 +56,9 @@ namespace CustomerClient
                             });
                             Console.ForegroundColor = Enum.Parse<ConsoleColor>(customer.ColorInConsole);
                             Console.WriteLine($"Joined the chat as {customer.Name}");
-                            string maquina_destino = "";
-                            string mensaje = "";
+                            string statFunction = "";
+                            string file = "";
                             int pos_espacio = 0;
-                            string messageTime;
                             var line = "";
                             while (true)
                             {
@@ -82,25 +81,24 @@ namespace CustomerClient
                                     if (line.IndexOf("send", 0, 5) != -1)
                                     {
                                         pos_espacio = line.IndexOf(" ", 5); // segundo espacio
-                                        maquina_destino = line.Substring(4, pos_espacio - 4).Trim();
-                                        mensaje = line.Substring(pos_espacio + 1);
-                                        messageTime = DateTime.Now.ToString("HH:mm");
-                                        if (maquina_destino != args[2])
+                                        statFunction = line.Substring(4, pos_espacio - 4).Trim().ToLower();
+                                        file = line.Substring(pos_espacio + 1);
+                                        switch (statFunction)
                                         {
-                                            await streaming.RequestStream.WriteAsync(new ChatMessage
-                                            {
-                                                Color = customer.ColorInConsole,
-                                                CustomerId = customer.Id,
-                                                CustomerName = customer.Name,
-                                                Message = mensaje,
-                                                RoomId = joinCustomerReply.RoomId,
-                                                CustomerDest = maquina_destino,
-                                                MessageTime = messageTime
-                                            });
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("No puede enviar mensaje a si mismo");
+                                            case "std":"min":"max":"mean":"count":
+                                                    await streaming.RequestStream.WriteAsync(new ChatMessage
+                                                    {
+                                                        Color = customer.ColorInConsole,
+                                                        CustomerId = customer.Id,
+                                                        CustomerName = customer.Name,
+                                                        Message = file,
+                                                        RoomId = joinCustomerReply.RoomId,
+                                                        CustomerDest = statFunction
+                                                    });
+                                                break;
+                                            default:
+                                                Console.WriteLine("Debe ingresar una funcion estadistica correcta");
+                                                break;
                                         }
                                         line = Console.ReadLine();
                                         DeletePrevConsoleLine();
@@ -127,7 +125,7 @@ namespace CustomerClient
                                 CustomerName = customer.Name,
                                 Message = line,
                                 RoomId = joinCustomerReply.RoomId,
-                                CustomerDest = ""
+                                CustomerDest = statFunction
                             });
                             await streaming.RequestStream.CompleteAsync();
                         }
