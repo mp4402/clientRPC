@@ -41,7 +41,7 @@ namespace CustomerClient
                                 {
                                     Console.ForegroundColor = Enum.Parse<ConsoleColor>(streaming.ResponseStream.Current.Color);
                                     //Aqui se escribe el mensaje
-                                    Console.WriteLine($" {streaming.ResponseStream.Current.Message}: - {streaming.ResponseStream.Current.FunctionProcess}: {streaming.ResponseStream.Current.Respuesta}");
+                                    Console.WriteLine($"{streaming.ResponseStream.Current.MessageTime} - {streaming.ResponseStream.Current.CustomerName}: {streaming.ResponseStream.Current.Message}");
                                     Console.ForegroundColor = Enum.Parse<ConsoleColor>(customer.ColorInConsole);
                                 }
                             });
@@ -83,6 +83,7 @@ namespace CustomerClient
                                         pos_espacio = line.IndexOf(" ", 5); // segundo espacio
                                         statFunction = line.Substring(4, pos_espacio - 4).Trim().ToLower();
                                         file = line.Substring(pos_espacio + 1);
+<<<<<<< HEAD
                                         if (file.Length < 4 ){
                                             try{
                                                 int valor = Convert.ToInt32(file);
@@ -111,6 +112,24 @@ namespace CustomerClient
                                                 line = Console.ReadLine();
                                                 DeletePrevConsoleLine();
                                             }
+=======
+                                        switch (statFunction)
+                                        {
+                                            case "std":"min":"max":"mean":"count":
+                                                    await streaming.RequestStream.WriteAsync(new ChatMessage
+                                                    {
+                                                        Color = customer.ColorInConsole,
+                                                        CustomerId = customer.Id,
+                                                        CustomerName = customer.Name,
+                                                        Message = file,
+                                                        RoomId = joinCustomerReply.RoomId,
+                                                        CustomerDest = statFunction
+                                                    });
+                                                break;
+                                            default:
+                                                Console.WriteLine("Debe ingresar una funcion estadistica correcta");
+                                                break;
+>>>>>>> parent of d1c7e56 (.)
                                         }
                                         Console.WriteLine("===========");
                                         line = Console.ReadLine();
@@ -138,7 +157,7 @@ namespace CustomerClient
                                 CustomerName = customer.Name,
                                 Message = line,
                                 RoomId = joinCustomerReply.RoomId,
-                                FunctionProcess = statFunction
+                                CustomerDest = statFunction
                             });
                             await streaming.RequestStream.CompleteAsync();
                         }
