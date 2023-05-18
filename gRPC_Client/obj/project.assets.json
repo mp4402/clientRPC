@@ -379,11 +379,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\RPC_project\\gRPC_Server\\gRPC_Client\\CustomerClient.csproj",
+      "projectUniqueName": "C:\\GitHub\\clientRPC\\gRPC_Client\\CustomerClient.csproj",
       "projectName": "CustomerClient",
-      "projectPath": "C:\\GitHub\\RPC_project\\gRPC_Server\\gRPC_Client\\CustomerClient.csproj",
+      "projectPath": "C:\\GitHub\\clientRPC\\gRPC_Client\\CustomerClient.csproj",
       "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\RPC_project\\gRPC_Server\\gRPC_Client\\obj\\",
+      "outputPath": "C:\\GitHub\\clientRPC\\gRPC_Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
