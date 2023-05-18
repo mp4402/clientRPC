@@ -83,25 +83,38 @@ namespace CustomerClient
                                         pos_espacio = line.IndexOf(" ", 5); // segundo espacio
                                         statFunction = line.Substring(4, pos_espacio - 4).Trim().ToLower();
                                         file = line.Substring(pos_espacio + 1);
-                                        switch (statFunction)
-                                        {
-                                            case "std": case "min": case "max": case "mean": case "count":
-                                                    await streaming.RequestStream.WriteAsync(new ChatMessage
-                                                    {
-                                                        Color = customer.ColorInConsole,
-                                                        CustomerId = customer.Id,
-                                                        CustomerName = customer.Name,
-                                                        Message = file,
-                                                        RoomId = joinCustomerReply.RoomId,
-                                                        FunctionProcess = statFunction
-                                                    });
-                                                break;
-                                            default:
-                                                Console.WriteLine("Debe ingresar una funcion estadistica correcta");
-                                                break;
+                                        if (file.Length < 4 ){
+                                            try{
+                                                int valor = Convert.ToInt32(file);
+                                                switch (statFunction)
+                                                {
+                                                    case "std": case "min": case "max": case "mean": case "count":
+                                                            await streaming.RequestStream.WriteAsync(new ChatMessage
+                                                            {
+                                                                Color = customer.ColorInConsole,
+                                                                CustomerId = customer.Id,
+                                                                CustomerName = customer.Name,
+                                                                Message = file,
+                                                                RoomId = joinCustomerReply.RoomId,
+                                                                FunctionProcess = statFunction
+                                                            });
+                                                        break;
+                                                    default:
+                                                        Console.WriteLine("Debe ingresar una funcion estadistica correcta");
+                                                        break;
+                                                }
+                                                line = Console.ReadLine();
+                                                //DeletePrevConsoleLine();
+                                            }
+                                            catch (Exception a){
+                                                Console.WriteLine("===========");
+                                                line = Console.ReadLine();
+                                                DeletePrevConsoleLine();
+                                            }
                                         }
+                                        Console.WriteLine("===========");
                                         line = Console.ReadLine();
-                                        //DeletePrevConsoleLine();
+                                        DeletePrevConsoleLine();
                                     }
                                     else
                                     {
