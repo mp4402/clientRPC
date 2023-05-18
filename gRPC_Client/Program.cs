@@ -41,7 +41,7 @@ namespace CustomerClient
                                 {
                                     Console.ForegroundColor = Enum.Parse<ConsoleColor>(streaming.ResponseStream.Current.Color);
                                     //Aqui se escribe el mensaje
-                                    Console.WriteLine($"{streaming.ResponseStream.Current.MessageTime} - {streaming.ResponseStream.Current.CustomerName}: {streaming.ResponseStream.Current.Message}");
+                                    Console.WriteLine($" {streaming.ResponseStream.Current.Message}: - {streaming.ResponseStream.Current.FunctionProcess}: {streaming.ResponseStream.Current.Respuesta}");
                                     Console.ForegroundColor = Enum.Parse<ConsoleColor>(customer.ColorInConsole);
                                 }
                             });
@@ -85,7 +85,7 @@ namespace CustomerClient
                                         file = line.Substring(pos_espacio + 1);
                                         switch (statFunction)
                                         {
-                                            case "std":"min":"max":"mean":"count":
+                                            case "std": case "min": case "max": case "mean": case "count":
                                                     await streaming.RequestStream.WriteAsync(new ChatMessage
                                                     {
                                                         Color = customer.ColorInConsole,
@@ -93,7 +93,7 @@ namespace CustomerClient
                                                         CustomerName = customer.Name,
                                                         Message = file,
                                                         RoomId = joinCustomerReply.RoomId,
-                                                        CustomerDest = statFunction
+                                                        FunctionProcess = statFunction
                                                     });
                                                 break;
                                             default:
@@ -101,7 +101,7 @@ namespace CustomerClient
                                                 break;
                                         }
                                         line = Console.ReadLine();
-                                        DeletePrevConsoleLine();
+                                        //DeletePrevConsoleLine();
                                     }
                                     else
                                     {
@@ -125,7 +125,7 @@ namespace CustomerClient
                                 CustomerName = customer.Name,
                                 Message = line,
                                 RoomId = joinCustomerReply.RoomId,
-                                CustomerDest = statFunction
+                                FunctionProcess = statFunction
                             });
                             await streaming.RequestStream.CompleteAsync();
                         }
